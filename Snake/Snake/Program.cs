@@ -1,5 +1,7 @@
 ﻿using Snake;
 
+Console.ForegroundColor = ConsoleColor.Yellow;
+
 Random random = new Random();
 Coord gridDimensions = new Coord(50, 20);
 
@@ -15,7 +17,9 @@ int score = 0;
 while (true)
 {
     Console.Clear();
+    Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine("Score: " + score);
+    Console.ForegroundColor= ConsoleColor.Yellow;
     snakePos.ApplyMovementDirection(movementDirection);
 
     // Render the game to the Console
@@ -26,9 +30,17 @@ while (true)
             Coord currentCoord = new Coord(x, y);
 
             if (snakePos.Equals(currentCoord) || snakePosHistory.Contains(currentCoord))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("■");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
             else if (applePos.Equals(currentCoord))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("a");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
             else if (x == 0 || y == 0 || x == gridDimensions.X - 1 || y == gridDimensions.Y - 1)
                 Console.Write("#");
             else
@@ -40,6 +52,7 @@ while (true)
     // Check if snake has picked up apple
     if (snakePos.Equals(applePos))
     {
+        Console.Beep(400, 200);
         tailLength++;
         score++;
         applePos = new Coord(random.Next(1, gridDimensions.X - 1), random.Next(1, gridDimensions.Y - 1));
@@ -48,6 +61,7 @@ while (true)
     else if (snakePos.X == 0 || snakePos.Y == 0 || snakePos.X == gridDimensions.X - 1 ||
         snakePos.Y == gridDimensions.Y - 1 || snakePosHistory.Contains(snakePos))
     {
+        Console.Beep(100, 200);
         // Reset game
         score = 0;
         tailLength = 1;
